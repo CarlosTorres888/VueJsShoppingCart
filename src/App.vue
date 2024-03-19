@@ -23,10 +23,12 @@ const items = ref([
 <template>
   <h1><i :class="shoppingIcon">local_mall</i> {{ header }} </h1>
   <div class="add-item form">
-  <input v-model="newItem" type="text"placeholder="Agregar articulo">
+  <input 
+  v-on:keyup.enter="items.push({ id:items.length, label: newItem})"
+  v-model="newItem" type="text"placeholder="Agregar articulo">
   <label ><input type="checkbox" v-model="newItemHighPriority">Alta prioridad</label>
   <!-- boton -->
-  <button class="btn btn-primary" v-on:click="items.push({ id:items.length, label: newItem})">Agregar articulo</button>
+  <button class="btn btn-primary">Agregar articulo</button>
 </div>
   <ul>
     <li v-for="{id, label} in items" v-bind:key="id">⭐{{ label }}</li>
