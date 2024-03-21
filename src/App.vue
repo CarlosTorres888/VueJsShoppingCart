@@ -9,12 +9,16 @@ const shoppingIcon = ref('material-icons shopping-cart-icon');
 // Creando una referencia reactiva
 // para alamacenar el valor de la lista
 const items = ref([
-   { id: 0, label: 'Leche', purchased: false, highPriority: true },
+   { id: 0, label: 'Leche', purchased: true, highPriority: true },
    { id: 1, label: 'Arroz' , purchased: false, highPriority: false},
    { id: 2, label: 'Carne', purchased: true, highPriority: true },
    { id: 3, label: 'Pan', purchased: false, highPriority: false },
    { id: 4, label: 'Huevos', purchased: true, highPriority: true }
 ]);
+// Metodo para el tachado de elementos
+const togglePurchased = (item) => {
+item.purchased = !item.purchased;
+};
 const newItem = ref('');
 const newItemHighPriority = ref(false)
 // Metodos
@@ -30,6 +34,7 @@ const doEdit = (edit) => {
   newItem.value = "";
 }
 const editing = ref(false);
+
 </script>
 
 <template>
@@ -66,11 +71,19 @@ const editing = ref(false);
   </form>
   <!-- Entrega de lista -->
   <ul>
-    <li v-for="{ id, label, purchased, highPriority } in items"
+    <li
+     v-for="({ id, label, purchased, highPriority }, index) in items"
+     @click="togglePurchased(items[index])"
     :class="{priority: highPriority, strikeout:purchased}"
      v-bind:key="id">
      ⭐ {{ label }}</li>
   </ul>
+  <!-- <ul>
+    <li v-for="{ id, label, purchased, highPriority } in items"
+    :class="[purchased ?'strikeout':'', highPriority ?'priority':'']"
+     v-bind:key="id">
+     ⭐ {{ label }}</li>
+  </ul> -->
   <!-- Mensaje condicional -->
   <p v-if="items.length === 0">🥀 No hay elementos en la lista 🥀</p>
 </template>
